@@ -1,4 +1,4 @@
-module basic_functions
+module github.com/leb-kuchen/go-basic-funtions
 
 go 1.18
 
