@@ -1,4 +1,4 @@
-module basic-functions
+module go-basic-functions
 
 go 1.18
 
