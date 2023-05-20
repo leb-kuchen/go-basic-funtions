@@ -6,16 +6,13 @@ import(
 	"errors"
 	"reflect"
 	"log"
+	."golang.org/x/exp/constraints"
 //	"strings"
 )
-type Number interface {
-	int | uint | uint8 | uint16 | uint32 | uint64 | int8 | int16 | int64 | float32 | float64 | uintptr
-}
-type Order interface {
-	Number | string
-}
 
-func Min[T Order](values []T) (T, error) {
+
+
+func Min[T Ordered](values []T) (T, error) {
 	if len(values) == 0{
 		var none T
 		return none, errors.New("Empty Slice")
@@ -28,7 +25,7 @@ func Min[T Order](values []T) (T, error) {
 	}
 	return min, nil
 }
-func Max[T Order](values []T) (T, error) {
+func Max[T Ordered](values []T) (T, error) {
 	if len(values) == 0{
 		var none T
 		return none, errors.New("Empty Slice")
@@ -76,7 +73,7 @@ func Filter[T any](values []T, fn func(T) bool) []T{
 	return output
 }
 func Map[T any, U any](values []T, fn func(T) U) []U {
-	output := []U{}
+	output := make([]U, len(values))
 	for _, val := range values {
 		output = append(output, fn(val))
 	}
@@ -116,18 +113,25 @@ func Splice[T any](values *[]T, start int, end int, insert ...T) []T {
 	return values_removed
 }
 
-func Sum[T Order](values []T) T {
+func Sum[T Complex](values []T) T {
 	var sum T
 	for _, val := range values {
 		sum += val
 	}
 	return sum
 }
-func Product[T Number](values []T) T{
+func Product[T Complex](values []T) T{
 	var prod T = 1
 	for _, val := range values {
 		prod *= val
 	}
 	return prod
+}
+func ToReversed[T any](v []T) []T{
+	var x = make([]T, len(v))
+	for i, j := 0, len(v); i < j; i, j = i + 1, j - 1{
+		x[i], x[j] = v[j], v[i]
+	}
+	return x
 }
 
