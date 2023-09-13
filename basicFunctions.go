@@ -1,4 +1,4 @@
-package go_basic_functions
+package goBasicFunctions
 
 import (
 	"errors"
