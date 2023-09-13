@@ -1,19 +1,17 @@
-package basic_functions
+package go_basic_functions
 
-
-import(
-	"fmt"
+import (
 	"errors"
-	"reflect"
+	"fmt"
 	"log"
-	."golang.org/x/exp/constraints"
-//	"strings"
+	"reflect"
+
+	. "golang.org/x/exp/constraints"
+	// "strings"
 )
 
-
-
 func Min[T Ordered](values []T) (T, error) {
-	if len(values) == 0{
+	if len(values) == 0 {
 		var none T
 		return none, errors.New("Empty Slice")
 	}
@@ -26,7 +24,7 @@ func Min[T Ordered](values []T) (T, error) {
 	return min, nil
 }
 func Max[T Ordered](values []T) (T, error) {
-	if len(values) == 0{
+	if len(values) == 0 {
 		var none T
 		return none, errors.New("Empty Slice")
 	}
@@ -42,17 +40,17 @@ func Any[T any](values []T, fn func(T) bool) bool {
 	for _, val := range values {
 		if fn(val) {
 			return true
-		}	
+		}
 	}
-	
+
 	return false
 }
-func AnyIdx[T any](values []T, fn func(T, int) bool) bool{
+func AnyIdx[T any](values []T, fn func(T, int) bool) bool {
 	for idx, val := range values {
 		if fn(val, idx) {
 			return true
 		}
-	}	
+	}
 	return false
 }
 func All[T any](values []T, fn func(T) bool) bool {
@@ -63,7 +61,7 @@ func All[T any](values []T, fn func(T) bool) bool {
 	}
 	return true
 }
-func Filter[T any](values []T, fn func(T) bool) []T{
+func Filter[T any](values []T, fn func(T) bool) []T {
 	output := []T{}
 	for _, val := range values {
 		if fn(val) {
@@ -79,10 +77,10 @@ func Map[T any, U any](values []T, fn func(T) U) []U {
 	}
 	return output
 }
-func AssertEquality[T any, U any](left T, right U){
+func AssertEquality[T any, U any](left T, right U) {
 	if !reflect.DeepEqual(left, right) {
-		 msg:= fmt.Sprint("Assertion failed: left == right \nleft: `", left, "`\nright: `", right, "`")
-		log.Fatal(msg)	
+		msg := fmt.Sprint("Assertion failed: left == right \nleft: `", left, "`\nright: `", right, "`")
+		log.Fatal(msg)
 	}
 }
 func Fold[T any, U any](init U, values []T, fn func(T, int) U) U {
@@ -91,10 +89,11 @@ func Fold[T any, U any](init U, values []T, fn func(T, int) U) U {
 	}
 	return init
 }
+
 // func FolgRight
 /*
 func Flatten[T any](values []T) T {
-	
+
 }
 */
 func CopyFromWithin[T any](values *[]T, start int, end int) {
@@ -120,18 +119,17 @@ func Sum[T Complex](values []T) T {
 	}
 	return sum
 }
-func Product[T Complex](values []T) T{
+func Product[T Complex](values []T) T {
 	var prod T = 1
 	for _, val := range values {
 		prod *= val
 	}
 	return prod
 }
-func ToReversed[T any](v []T) []T{
+func ToReversed[T any](v []T) []T {
 	var x = make([]T, len(v))
-	for i, j := 0, len(v); i < j; i, j = i + 1, j - 1{
+	for i, j := 0, len(v); i < j; i, j = i+1, j-1 {
 		x[i], x[j] = v[j], v[i]
 	}
 	return x
 }
-
